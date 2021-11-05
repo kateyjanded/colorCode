@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="colorCode.UserControls.GradientTool"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:colorCode.UserControls"
+             mc:Ignorable="d" 
+             Name="GradienTool">
+    <Thumb  DragDelta="Thumb_DragDelta" >
+        <Thumb.Template>
+            <ControlTemplate>
+                <Path Data="M0,0 v10 H35 L40,5 L35,0 z" Fill="Transparent" StrokeThickness="1" Stroke="Blue" />
+            </ControlTemplate>
+        </Thumb.Template>
+    </Thumb>
+</UserControl>

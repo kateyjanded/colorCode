@@ -1,0 +1,113 @@
+﻿using colorCode.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+
+namespace colorCode
+{
+    /// <summary>
+    /// Interaction logic for GradientBrush.xaml
+    /// </summary>
+    public partial class GradientBrush : Window
+    {
+        public GradientBrush()
+        {
+            InitializeComponent();
+            DataContext = new GradientViewModel();
+            LinearGradient = new LinearGradientBrush();
+            GradientStop = new GradientStopCollection();
+        }
+        private LinearGradientBrush LinearGradient;
+        private GradientStopCollection GradientStop;
+
+        public void AddStop()
+        {
+            var list = cnvColor.Children.OfType<UIElement>().ToList();
+            list.RemoveAll(x => x.GetType()== typeof(Thumb));
+            int index = 1;
+            foreach (GradientStop stop in GradientStop)
+            {
+                Thumb thumb = new Thumb();
+                thumb.Height = 10;
+                thumb.Width = 35;
+                thumb.BorderBrush = Brushes.Black;
+                thumb.BorderThickness = new Thickness(1);
+                Canvas.SetTop(thumb, 1);
+                thumb.DragDelta += thumb_DragDelta;
+                cnvColor.Children.Add(thumb);
+                if (stop.Offset == 0)
+                    Canvas.SetTop(thumb, stop.Offset * cnvColor.Height);
+                else if (stop.Offset == 1)
+                    Canvas.SetTop(thumb, stop.Offset * cnvColor.Height - thumb.Height);
+                else
+                    Canvas.SetTop(thumb, stop.Offset * cnvColor.Height - thumb.Height / 2);
+                index += 1;
+            }
+        }
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Thumb thumb = new Thumb();
+            thumb.Height = 10;
+            thumb.Width = 35;
+            thumb.BorderBrush = Brushes.Black;
+            thumb.BorderThickness = new Thickness(1);
+            Canvas.SetTop(thumb, 1);
+            thumb.DragDelta += thumb_DragDelta;
+            cnvColor.Children.Add(thumb);
+        }
+
+        private void thumb_DragDelta(object sender, DragDeltaEventArgs e)
+        {
+            //Canvas.SetLeft((Thumb)sender, Canvas.GetLeft((Thumb)sender) + e.HorizontalChange);
+            var thumb = (Thumb)sender;
+            Canvas.SetTop(thumb, Canvas.GetTop(thumb) + e.VerticalChange);
+            if (Canvas.GetTop(thumb)<0)
+            {
+                Canvas.SetTop(thumb, 0);
+            }
+            if (Canvas.GetTop(thumb) > cnvColor.RenderSize.Height- thumb.Height/2)
+            {
+                Canvas.SetTop(thumb,  cnvColor.RenderSize.Height - thumb.Height / 2);
+            }
+        }
+
+        private void tmbTop_DragDelta(object sender, DragDeltaEventArgs e)
+        {
+            var thumb = (Thumb)sender;
+            Canvas.SetTop(thumb, Canvas.GetTop(thumb) + e.VerticalChange);
+            if (Canvas.GetTop(thumb) < 0)
+            {
+                Canvas.SetTop(thumb, 0);
+            }
+            if (Canvas.GetTop(thumb) > cnvColor.RenderSize.Height - thumb.Height / 2)
+            {
+                Canvas.SetTop(thumb, cnvColor.RenderSize.Height - thumb.Height / 2);
+            }
+        }
+
+        private void tmbBottom_DragDelta(object sender, DragDeltaEventArgs e)
+        {
+            var thumb = (Thumb)sender;
+            Canvas.SetTop(thumb, Canvas.GetTop(thumb) + e.VerticalChange);
+            if (Canvas.GetTop(thumb) < 0)
+            {
+                Canvas.SetTop(thumb, 0);
+            }
+            if (Canvas.GetTop(thumb) > cnvColor.RenderSize.Height - thumb.Height / 2)
+            {
+                Canvas.SetTop(thumb, cnvColor.RenderSize.Height - thumb.Height / 2);
+            }
+        }
+    }
+}

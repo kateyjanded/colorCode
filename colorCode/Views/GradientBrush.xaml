@@ -1,0 +1,77 @@
+﻿  <Window 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:colorCode.UserControls"
+        xmlns:view="clr-namespace:colorCode"
+        xmlns:UserControls="clr-namespace:colorCode.UserControls" x:Class="colorCode.GradientBrush"
+        mc:Ignorable="d" Name="titlewindow"  
+        Title="GradientBrush" Height="300" Width="525" WindowState="Maximized">
+    <Window.Resources>
+        <ControlTemplate x:Key="ThumbsControlTemplate1" TargetType="{x:Type UserControls:Thumbs}">
+            <Path x:Name="tmb_Top" Data="M0,0 v10 H35 L40,5 L35,0 z" Fill="Blue" StrokeThickness="1" Stroke="Blue" />
+        </ControlTemplate>
+        <ControlTemplate x:Key="ThumbsControlTemplate2" TargetType="{x:Type UserControls:Thumbs}">
+            <Path x:Name="tmb_Top" Data="M0,0 v10 H35 L40,5 L35,0 z" Fill="Gray" StrokeThickness="1" Stroke="Blue" />
+        </ControlTemplate>
+    </Window.Resources>
+
+    <Grid Margin="20,21,20,19">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.8*"/>
+            <ColumnDefinition Width="1.2*"/>
+            <ColumnDefinition Width="1.8*"/>
+            <ColumnDefinition Width="1.8*"/>
+            <ColumnDefinition Width="1.2*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock TextAlignment="Center" VerticalAlignment="Center" Text="Opacity:" Grid.Row="2" Grid.Column="2"/>
+        <StackPanel Orientation="Vertical" Grid.Row="4" Grid.Column="0" VerticalAlignment="Bottom">
+            <TextBlock TextAlignment="Left"  VerticalAlignment="Center" Text="Min:" Grid.Row="4" Grid.Column="0"/>
+            <TextBox Name="txtMin" VerticalAlignment="Bottom" Text="{Binding Minimum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="0" />
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0" VerticalAlignment="Bottom">
+            <TextBlock Text="Max:" TextAlignment="Left"  VerticalAlignment="Center"  Grid.Row="4" Grid.Column="0"/>
+            <TextBox Name="txtMax" Text="{Binding Maximum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center" VerticalAlignment="Bottom"  Grid.Row="4" Grid.Column="0" />
+        </StackPanel>
+        <TextBlock TextAlignment="Center" HorizontalAlignment="Center" Text="Color:" Grid.Row="1" VerticalAlignment="Center" Grid.Column="2"/>
+        <TextBlock TextAlignment="Center" HorizontalAlignment="Center" Text="Postion:" Grid.Row="3" VerticalAlignment="Center" Grid.Column="2"/>
+        <TextBlock TextAlignment="Center" HorizontalAlignment="Center" Text="Brightness:" Grid.Row="4" VerticalAlignment="Center" Grid.Column="2"/>
+        <Slider  Grid.Column="3" Grid.Row="2" Width="auto" VerticalAlignment="Center" Height="auto" Value="{Binding Opacities, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Maximum="100" Minimum="0" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True"/>
+        <Slider  Grid.Column="3" Grid.Row="3" Width="auto" VerticalAlignment="Center" Height="auto" Value="{Binding Position, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Maximum="100" Minimum="0" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True"/>
+        <Slider  Grid.Column="3" Grid.Row="4" Width="auto" VerticalAlignment="Center" Height="auto"  Maximum="100" Minimum="-100" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True"/>
+        <view:TextBoxControl x:Name="txtOpacity" Grid.Column="4" Grid.Row="2" Minimum="0" Maximum="100" Value="{Binding Opacities, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <view:TextBoxControl Grid.Column="4" Grid.Row="3" Minimum="0" Maximum="100" Value="{Binding Position, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <view:TextBoxControl Grid.Column="4" Grid.Row="4" Minimum="0" Maximum="100" />
+        <StackPanel Orientation="Horizontal" Grid.Column="2">
+            <Button Margin="5" Grid.Column="1" Click="Button_Click" Width="20">
+                <Image Source="pack://application:,,,/Images/addSlider.png" Width="25" HorizontalAlignment="Center"/>
+            </Button>
+            <Button Margin="5" Grid.Column="2" Width="20" Click="Button_Click_2" >
+                <Image Source="pack://application:,,,/Images/remove thumb.png" Width="25" HorizontalAlignment="Center"/>
+            </Button>
+        </StackPanel>
+        <Button Margin="5" Width="75" Height="24" Grid.Column="4" Grid.Row="1" Click="Button_Click_1">
+            <Image Source="pack://application:,,,/Images/newColor.png" Height="20" Width="20" HorizontalAlignment="Left"/>
+        </Button>
+        <Canvas x:Name="cnvColor"   Grid.Column="1" HorizontalAlignment="Left"  Grid.RowSpan="6"  Width="30"  Margin="10,10,0,10" Background="Bisque" SizeChanged="CnvColor_SizeChanged">
+            <local:Thumbs x:Name="tmbTop" Color="Blue" Height="15" Canvas.Top="0" DragDelta="thumb_DragDelta" Position="0"  PreviewMouseLeftButtonDown="tmbTop_PreviewMouseLeftButtonDown" Template="{DynamicResource ThumbsControlTemplate1}"/>
+            <local:Thumbs x:Name="tmbBottom" Color="Gray" Position="100" Height="15" Canvas.Top="200" DragDelta="thumb_DragDelta"  PreviewMouseLeftButtonDown="tmbTop_PreviewMouseLeftButtonDown" Template="{DynamicResource ThumbsControlTemplate2}"/>
+        </Canvas>
+        <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="5" VerticalAlignment="Bottom">
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                <TextBlock Text="Position:"/>
+                <TextBox Text="{Binding CanvasPosition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+            <Canvas Name="cnvColorPallette" Height="50" Width="80" />
+        </StackPanel>
+    </Grid>
+</Window>

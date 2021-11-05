@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="colorCode.CMYKColorControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:colorCode"
+             mc:Ignorable="d" 
+             Name="CYMKControl"
+            >
+    <Grid Background="LightGray">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Name="grdRGB" Grid.Row="1" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Cyan"/>
+            <TextBlock Text="Magenta:" Grid.Row="1" Margin="5" />
+            <TextBlock Text="Yellow:" Grid.Row="2" Margin="5"/>
+            <TextBlock Text="Black:" Grid.Row="3" Margin="5"/>
+            <local:TextBoxControl x:Name="txtCyan" Grid.Row="0" Grid.Column="1" Width="100" Value="{Binding ElementName=CYMKControl, Path=Cyan, Mode=TwoWay}" Minimum="0" Maximum="100" />
+            <local:TextBoxControl x:Name="txtMagenta" Grid.Row="1" Grid.Column="1" Width="100" Value="{Binding ElementName=CYMKControl, Path=Magenta, Mode=TwoWay}" Minimum="0" Maximum="100"/>
+            <local:TextBoxControl x:Name="txtYellow" Grid.Row="2" Grid.Column="1" Width="100" Value="{Binding ElementName=CYMKControl, Path=Yellow, Mode=TwoWay}" Minimum="0" Maximum="100" />
+            <local:TextBoxControl x:Name="txtKey" Grid.Row="3" Grid.Column="1" Width="100" Value="{Binding ElementName=CYMKControl, Path=Key, Mode=TwoWay}" Minimum="0" Maximum="100" />
+        </Grid>
+
+    </Grid>
+</UserControl>
